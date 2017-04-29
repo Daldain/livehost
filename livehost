@@ -1,6 +1,7 @@
 #!/bin/bash
 clear
 PORT="80"
+SLEEP="5"
 function checkAddr(){
 while [ 1=1 ]
 do
@@ -9,16 +10,18 @@ echo "::===::"
 netstat -tn 2>/dev/null | grep :$PORT | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr | head
 echo "::===::"
 
-sleep 5
+sleep $SLEEP
 
 done
 }
 
-while getopts ":p:" o; do
+while getopts ":p:s:" o; do
 case "${o}" in
+s) SLEEP=$OPTARG;;
 p) PORT=$OPTARG
 checkAddr
 ;;
 esac
 done
 
+checkAddr
