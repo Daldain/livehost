@@ -1,0 +1,24 @@
+#!/bin/bash
+clear
+PORT="80"
+function checkAddr(){
+while [ 1=1 ]
+do
+
+echo ":: Active Network Connections ::"
+netstat -tn 2>/dev/null | grep :$PORT | awk '{print $5}'| cut -d: -f1 | sort | uniq -c | sort -nr | head
+echo "::===::"
+
+sleep 5
+clear
+done
+}
+
+while getopts ":p:" o; do
+case "${o}" in
+p) PORT=$OPTARG
+checkAddr
+;;
+esac
+done
+
